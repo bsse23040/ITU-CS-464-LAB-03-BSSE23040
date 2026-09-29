@@ -6,7 +6,10 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 99c9720ab356a0642a771bea13969a05
+    path: Assets/Scenes/Blockout/TDM_01_Warehouse.unity
+    guid: b9f45adb16f1a7249be3020bd8369f89
+  - enabled: 1
+    path: Assets/Scenes/Blockout/TDM_05_Docks.unity
+    guid: cbaff4d8f96ba6741a0d30f1e2cca8bf
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
