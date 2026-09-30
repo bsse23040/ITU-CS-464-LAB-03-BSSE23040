@@ -7,8 +7,8 @@ using UnityEngine;
 // Lab-03 helpers: screenshots of the two blockout levels and a Scene-view fly-through (for screen recording).
 public static class LabTools
 {
-    static readonly string[] Levels = { "TDM_01_Warehouse", "TDM_05_Docks" };
-    static string ScenePath(string n) { return "Assets/Scenes/Blockout/" + n + ".unity"; }
+    static readonly string[] Levels = { "Level1_Warehouse", "Level2_Docks" };
+    static string ScenePath(string n) { return "Assets/Scenes/Lab03/" + n + ".unity"; }
 
     // ------------------------------------------------------------ screenshots
     struct Shot { public string name; public Vector3 pos, target; public float fov; public bool top; }
@@ -16,21 +16,21 @@ public static class LabTools
 
     static List<Shot> ShotsFor(string level)
     {
-        if (level == "TDM_01_Warehouse") return new List<Shot> {
+        if (level == "Level1_Warehouse") return new List<Shot> {
             S("1_overview", new Vector3(-55, 45, -60), Vector3.zero, 50),
             S("2_topdown", new Vector3(0, 100, 0), Vector3.zero, 45, true),
             S("3_spawn_view", new Vector3(0, 1.7f, -38), new Vector3(0, 2.5f, 0), 70),
             S("4_building_outside", new Vector3(-30, 5, -28), new Vector3(0, 3, 0), 60),
             S("5_ground_floor", new Vector3(-9, 1.7f, 2), new Vector3(9, 1.7f, -4), 75),
-            S("6_upper_floor", new Vector3(-10, 6.2f, 3), new Vector3(8, 5.5f, -4), 75),
+            S("6_upper_floor", new Vector3(-9, 4.8f, 4), new Vector3(9, 4.3f, -3), 75),
         };
         return new List<Shot> {
             S("1_overview", new Vector3(-55, 45, -60), Vector3.zero, 50),
             S("2_topdown", new Vector3(0, 100, 0), Vector3.zero, 45, true),
             S("3_spawn_view", new Vector3(0, 1.7f, -38), new Vector3(0, 3, 0), 70),
-            S("4_gantry_front", new Vector3(-8, 14, -36), new Vector3(0, 6, 0), 55),
-            S("5_gantry_side", new Vector3(-34, 4, -10), new Vector3(0, 5, 0), 60),
-            S("6_deck_view", new Vector3(0, 10.3f, -4), new Vector3(0, 1, -30), 70),
+            S("4_gantry_front", new Vector3(-8, 12, -36), new Vector3(0, 4, 0), 55),
+            S("5_gantry_side", new Vector3(-34, 4, -10), new Vector3(0, 4, 0), 60),
+            S("6_deck_view", new Vector3(0, 7.7f, -4), new Vector3(0, 1, -30), 70),
         };
     }
 
@@ -77,14 +77,16 @@ public static class LabTools
     static Vector3 V(float x, float y, float z) { return new Vector3(x, y, z); }
     static readonly Vector3[][] Paths = {
         // Warehouse: (position, look-at) pairs
-        new[] { V(0,1.7f,-40), V(0,2.5f,0),   V(0,1.7f,-30), V(0,2.5f,0),   V(-14,1.7f,-24), V(0,2.5f,0),   V(-26,3f,-14), V(0,3f,0),
-                V(-26,3f,4), V(0,3f,0),       V(-16,1.7f,0), V(8,1.7f,0),   V(-9,1.7f,0), V(9,1.7f,-4),     V(-8,1.7f,-8), V(-8,4f,0),
-                V(-8,3.5f,-4), V(-8,6f,4),    V(-8,6.2f,2), V(9,5.5f,-3),   V(2,6.2f,3), V(12,5.5f,-4),     V(2,6.2f,3), V(14,5,10),
-                V(-40,30,-45), V(0,3,0),      V(-52,40,-58), V(0,2,0) },
+        new[] { V(0,1.7f,-42), V(0,3,0),       V(0,1.7f,-31), V(0,3,0),       V(-14,1.7f,-24), V(-8,3,-2),    V(-28,2.5f,-12), V(-10,3,-2),
+                V(-24,1.7f,-3), V(-8,1.7f,-2.5f), V(-10,1.7f,-2.5f), V(6,1.7f,-2.5f), V(-9,1.7f,-5), V(-8,3,-8.5f),
+                V(-12,2f,-8.5f), V(-6,4.5f,-8.5f), V(-9,3.5f,-8.5f), V(-3,4.9f,-8.5f), V(-5,4.8f,-8.5f), V(6,4.6f,0),
+                V(0,4.8f,-4), V(12,4.6f,6),    V(2,4.8f,3), V(-10,4.8f,8),    V(2,4.8f,3), V(14,4.5f,-6),
+                V(-40,30,-45), V(0,3,0),       V(-52,40,-58), V(0,2,0) },
         // Docks
-        new[] { V(0,1.7f,-40), V(0,3,0),      V(0,1.7f,-33), V(0,3,0),     V(-4,1.7f,-27), V(0,5,0),       V(0,1.7f,-21), V(0,8,0),
-                V(0,4,-16), V(0,9,0),         V(0,7,-11), V(0,9.5f,0),     V(0,10.3f,-6), V(0,9,10),       V(0,10.3f,0), V(0,2,30),
-                V(0,10.3f,0), V(30,3,0),      V(0,10.3f,0), V(0,2,-30),    V(-30,16,-30), V(0,5,0),        V(-52,40,-58), V(0,2,0) },
+        new[] { V(0,1.7f,-42), V(0,3,0),       V(0,1.7f,-33), V(0,4,0),       V(-4,1.7f,-27), V(0,6,0),       V(0,1.7f,-21), V(0,7,0),
+                V(0,2.5f,-17), V(0,7.5f,0),    V(0,4.5f,-13), V(0,8,0),       V(0,6.8f,-8), V(0,8,0),         V(0,7.7f,-4), V(0,6,10),
+                V(0,7.7f,0), V(0,2,30),        V(0,7.7f,0), V(30,3,0),        V(0,7.7f,0), V(0,2,-30),        V(-30,16,-30), V(0,5,0),
+                V(-52,40,-58), V(0,2,0) },
     };
 
     static int levelIdx, nPoints;
@@ -105,6 +107,16 @@ public static class LabTools
         int o = look ? 1 : 0;
         Vector3 P(int k) { k = Mathf.Clamp(k, 0, n - 1); return path[k * 2 + o]; }
         return CR(P(i - 1), P(i), P(i + 1), P(i + 2), t);
+    }
+
+    // Lets an outside script start the fly-through by creating Temp/fly_now (used while screen recording).
+    [InitializeOnLoadMethod]
+    static void WatchTrigger()
+    {
+        EditorApplication.update += () =>
+        {
+            if (!running && File.Exists("Temp/fly_now")) { File.Delete("Temp/fly_now"); FlyThrough(); }
+        };
     }
 
     [MenuItem("Blockout/Lab/Fly Through Both Levels")]
