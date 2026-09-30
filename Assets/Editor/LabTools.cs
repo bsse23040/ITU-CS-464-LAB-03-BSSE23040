@@ -4,34 +4,29 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 
-// Lab-03 helpers: screenshots of the two blockout levels and a Scene-view fly-through (for screen recording).
+// Lab-03 helpers: screenshots of the two grey-box level and a Scene-view fly-through that follows each level's default route.
 public static class LabTools
 {
-    static readonly string[] Levels = { "Level1_Warehouse", "Level2_Docks" };
+    static readonly string[] Levels = { "Level_Warehouse" };
     static string ScenePath(string n) { return "Assets/Scenes/Lab03/" + n + ".unity"; }
+    static readonly Color Background = new Color(.72f, .72f, .72f);
 
     // ------------------------------------------------------------ screenshots
     struct Shot { public string name; public Vector3 pos, target; public float fov; public bool top; }
     static Shot S(string n, Vector3 p, Vector3 t, float fov = 60, bool top = false) { return new Shot { name = n, pos = p, target = t, fov = fov, top = top }; }
+    static Vector3 V(float x, float y, float z) { return new Vector3(x, y, z); }
 
     static List<Shot> ShotsFor(string level)
     {
-        if (level == "Level1_Warehouse") return new List<Shot> {
-            S("1_overview", new Vector3(-55, 45, -60), Vector3.zero, 50),
-            S("2_topdown", new Vector3(0, 100, 0), Vector3.zero, 45, true),
-            S("3_spawn_view", new Vector3(0, 1.7f, -38), new Vector3(0, 2.5f, 0), 70),
-            S("4_building_outside", new Vector3(-30, 5, -28), new Vector3(0, 3, 0), 60),
-            S("5_ground_floor", new Vector3(-9, 1.7f, 2), new Vector3(9, 1.7f, -4), 75),
-            S("6_upper_floor", new Vector3(-9, 4.8f, 4), new Vector3(9, 4.3f, -3), 75),
+        if (level == "Level_Warehouse") return new List<Shot> {
+            S("1_overview", V(-48, 42, -62), V(0, 0, -8), 50),
+            S("2_topdown_route", V(0, 95, -2), V(0, 0, 0), 45, true),
+            S("3_spawn_view", V(-7.5f, 1.7f, -35), V(-7.5f, 1.5f, -20), 70),
+            S("4_the_yard", V(-1, 1.7f, -19), V(-5, 1.5f, -8), 70),
+            S("5_doorway_and_stairs", V(-7.5f, 1.7f, -12), V(-7.5f, 2.6f, -2), 70),
+            S("6_upper_floor_goal", V(-7.5f, 4.8f, 0), V(7.5f, 4f, 3), 75),
         };
-        return new List<Shot> {
-            S("1_overview", new Vector3(-55, 45, -60), Vector3.zero, 50),
-            S("2_topdown", new Vector3(0, 100, 0), Vector3.zero, 45, true),
-            S("3_spawn_view", new Vector3(0, 1.7f, -38), new Vector3(0, 3, 0), 70),
-            S("4_gantry_front", new Vector3(-8, 12, -36), new Vector3(0, 4, 0), 55),
-            S("5_gantry_side", new Vector3(-34, 4, -10), new Vector3(0, 4, 0), 60),
-            S("6_deck_view", new Vector3(0, 7.7f, -4), new Vector3(0, 1, -30), 70),
-        };
+        return new List<Shot>();
     }
 
     static void Render(Camera cam, string file)
@@ -58,6 +53,7 @@ public static class LabTools
             var go = new GameObject("LabCam");
             var cam = go.AddComponent<Camera>();
             cam.nearClipPlane = 0.2f; cam.farClipPlane = 400f;
+            cam.clearFlags = CameraClearFlags.SolidColor; cam.backgroundColor = Background;
             bool first = true;
             foreach (var s in ShotsFor(level))
             {
@@ -73,24 +69,37 @@ public static class LabTools
         }
     }
 
-    // ------------------------------------------------------------ fly-through
-    static Vector3 V(float x, float y, float z) { return new Vector3(x, y, z); }
-    static readonly Vector3[][] Paths = {
-        // Warehouse: (position, look-at) pairs
-        new[] { V(0,1.7f,-42), V(0,3,0),       V(0,1.7f,-31), V(0,3,0),       V(-14,1.7f,-24), V(-8,3,-2),    V(-28,2.5f,-12), V(-10,3,-2),
-                V(-24,1.7f,-3), V(-8,1.7f,-2.5f), V(-10,1.7f,-2.5f), V(6,1.7f,-2.5f), V(-9,1.7f,-5), V(-8,3,-8.5f),
-                V(-12,2f,-8.5f), V(-6,4.5f,-8.5f), V(-9,3.5f,-8.5f), V(-3,4.9f,-8.5f), V(-5,4.8f,-8.5f), V(6,4.6f,0),
-                V(0,4.8f,-4), V(12,4.6f,6),    V(2,4.8f,3), V(-10,4.8f,8),    V(2,4.8f,3), V(14,4.5f,-6),
-                V(-40,30,-45), V(0,3,0),       V(-52,40,-58), V(0,2,0) },
-        // Docks
-        new[] { V(0,1.7f,-42), V(0,3,0),       V(0,1.7f,-33), V(0,4,0),       V(-4,1.7f,-27), V(0,6,0),       V(0,1.7f,-21), V(0,7,0),
-                V(0,2.5f,-17), V(0,7.5f,0),    V(0,4.5f,-13), V(0,8,0),       V(0,6.8f,-8), V(0,8,0),         V(0,7.7f,-4), V(0,6,10),
-                V(0,7.7f,0), V(0,2,30),        V(0,7.7f,0), V(30,3,0),        V(0,7.7f,0), V(0,2,-30),        V(-30,16,-30), V(0,5,0),
-                V(-52,40,-58), V(0,2,0) },
-    };
+    // ------------------------------------------------------------ fly-through along the default route
+    // path = (position, look-at) pairs
+    static Vector3[] BuildPath(int idx)
+    {
+        var r = SimpleLevels.Route();
+        var pts = new List<Vector3>();                       // densify so the smoothed camera stays on the route
+        for (int i = 0; i < r.Length - 1; i++)
+        {
+            int n = Mathf.Max(1, Mathf.CeilToInt(Vector3.Distance(r[i], r[i + 1]) / 5f));
+            for (int k = 0; k < n; k++) pts.Add(Vector3.Lerp(r[i], r[i + 1], (float)k / n));
+        }
+        pts.Add(r[r.Length - 1]);
+        var up = Vector3.up;
+        var list = new List<Vector3>();
+        Vector3 centre = V(0, 0, -8);
+        list.Add(V(-48, 42, -62)); list.Add(centre);         // start with the overview
+        for (int i = 0; i < pts.Count; i++)
+        {
+            Vector3 look;
+            if (i < pts.Count - 1) look = pts[Mathf.Min(i + 2, pts.Count - 1)] + up * 1.4f;
+            else look = pts[i] + (pts[i] - pts[i - 1]).normalized * 4f + up * 1.2f;
+            list.Add(pts[i] + up * 1.7f); list.Add(look);
+        }
+        var goal = pts[pts.Count - 1];
+        list.Add(goal + V(-6, 8, -10)); list.Add(goal);      // pull back to look at the goal
+        list.Add(V(-48, 42, -62)); list.Add(centre);         // and finish on the overview
+        return list.ToArray();
+    }
 
     static int levelIdx, nPoints;
-    static double t0, segLen = 3.0;
+    static double t0, segLen = 1.7;
     static Vector3[] path;
     static bool running;
 
@@ -103,7 +112,6 @@ public static class LabTools
         int n = path.Length / 2;
         int i = Mathf.Clamp(Mathf.FloorToInt(u), 0, n - 2);
         float t = u - i;
-        t = t * t * (3 - 2 * t) * .4f + t * .6f; // gentle ease
         int o = look ? 1 : 0;
         Vector3 P(int k) { k = Mathf.Clamp(k, 0, n - 1); return path[k * 2 + o]; }
         return CR(P(i - 1), P(i), P(i + 1), P(i + 2), t);
@@ -119,7 +127,7 @@ public static class LabTools
         };
     }
 
-    [MenuItem("Blockout/Lab/Fly Through Both Levels")]
+    [MenuItem("Blockout/Lab/Fly Through the Level")]
     public static void FlyThrough()
     {
         levelIdx = 0; running = true;
@@ -132,7 +140,7 @@ public static class LabTools
     static void StartLevel()
     {
         EditorSceneManager.OpenScene(ScenePath(Levels[levelIdx]), OpenSceneMode.Single);
-        path = Paths[levelIdx]; nPoints = path.Length / 2;
+        path = BuildPath(levelIdx); nPoints = path.Length / 2;
         t0 = EditorApplication.timeSinceStartup + 1.5; // hold on the first frame briefly
         var sv = SceneView.lastActiveSceneView;
         if (sv != null) { sv.in2DMode = false; sv.orthographic = false; sv.Focus(); }
