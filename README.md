@@ -11,3 +11,6 @@ Lab 03: level blockout. One simple grey-box Team Deathmatch warehouse in the sty
 - **Editor scripts:** `Assets/Editor/SimpleLevels.cs` builds the level, `Assets/Editor/LabTools.cs` takes the screenshots.
 
 ![Warehouse](Docs/screenshots/Level_Warehouse_2_topdown_route.png)
+
+---
+Note: the commit dates in this repository were adjusted as part of the Git practice exercise, as allowed by the instructor.
