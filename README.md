@@ -1,17 +1,13 @@
 # ITU-CS-464-LAB-03-BSSE23040
 
-Lab 03: level blockout. Two Team Deathmatch arenas in the style of PUBG Mobile, built from the provided **POLYGON Prototype Pack by Synty** and Unity cube game objects.
+Lab 03: level blockout. One simple grey-box Team Deathmatch warehouse in the style of PUBG Mobile, built from the provided **POLYGON Prototype Pack by Synty**.
 
-| Level | Scene | Idea |
-|---|---|---|
-| 1 | `Assets/Scenes/Lab03/Level1_Warehouse.unity` | A two-storey warehouse in the middle of the arena, with containers and cover around it |
-| 2 | `Assets/Scenes/Lab03/Level2_Docks.unity` | Staggered container lanes and a crane gantry deck 6 m up |
-
-- **Lab document (docx and PDF) and the Scene view walkthrough video:** `Submission/`
+- No scenery and no colour: only greys, with one marked default route (the light strip on the floor) from the spawn pad to the goal pad, about 65 m long.
+- **Scene:** `Assets/Scenes/Lab03/Level_Warehouse.unity`
+- **Lab document (docx and PDF) and the Scene view walkthrough video (follows the default route):** `Submission/`
 - **Reference images and gameplay video from PUBG Mobile:** `References/PUBG/`
-- **Screenshots of both levels:** `Docs/screenshots/`
-- **Synty assets used:** `Assets/Synty/` (only the 196 assets the levels need, about 7 MB; the full pack is not included)
-- **Editor scripts:** `Assets/Editor/SyntyLevels.cs` builds the two levels, `Assets/Editor/LabTools.cs` takes the screenshots and flies the Scene view camera.
+- **Screenshots of the level:** `Docs/screenshots/`
+- **Synty pieces used:** `Assets/Synty/` (only the 13 prefabs the level needs, about 1 MB; the full pack is not included)
+- **Editor scripts:** `Assets/Editor/SimpleLevels.cs` builds the level, `Assets/Editor/LabTools.cs` takes the screenshots and flies the Scene view camera along the route.
 
-![Warehouse](Docs/screenshots/Level1_Warehouse_1_overview.png)
-![Docks](Docs/screenshots/Level2_Docks_1_overview.png)
+![Warehouse](Docs/screenshots/Level_Warehouse_2_topdown_route.png)
