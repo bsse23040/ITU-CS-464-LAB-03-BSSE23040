@@ -4,10 +4,10 @@ Lab 03: level blockout. One simple grey-box Team Deathmatch warehouse in the sty
 
 - No scenery and no colour: only greys, with one marked default route (the light strip on the floor) from the spawn pad to the goal pad, about 65 m long.
 - **Scene:** `Assets/Scenes/Lab03/Level_Warehouse.unity`
-- **Lab document (docx and PDF) and the Scene view walkthrough video (follows the default route):** `Submission/`
+- **Lab document (docx and PDF) and the Scene view walkthrough video I recorded in Unity (`Game_Dev_Lab_03.mp4`):** `Submission/`
 - **Reference images and gameplay video from PUBG Mobile:** `References/PUBG/`
 - **Screenshots of the level:** `Docs/screenshots/`
 - **Synty pieces used:** `Assets/Synty/` (only the 13 prefabs the level needs, about 1 MB; the full pack is not included)
-- **Editor scripts:** `Assets/Editor/SimpleLevels.cs` builds the level, `Assets/Editor/LabTools.cs` takes the screenshots and flies the Scene view camera along the route.
+- **Editor scripts:** `Assets/Editor/SimpleLevels.cs` builds the level, `Assets/Editor/LabTools.cs` takes the screenshots.
 
 ![Warehouse](Docs/screenshots/Level_Warehouse_2_topdown_route.png)
